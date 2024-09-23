@@ -7,3 +7,5 @@ print(b) # [1,4,3]
 # 반대로 b를 변경하면 a도 변한다.
 print("a의 id = " + str(id(a)))
 print("b의 id = " + str(id(b)))
+
+#연습문제 끝
