@@ -90,3 +90,70 @@ def two_times(x):
     return x * 2
 result = list(map(two_times, [1,2,3,4]))
 print(result)
+
+
+# max() - 반복가능한 데이터중 가장 큰 값을 리턴
+print(max([4,6,3,8,10,0,9])) #10
+print(max("python")) #y - 문자는 아스키코드가 큰값을 리턴
+
+# min() - 반복가능한 데이터중 가장 작은 값을 리턴
+print(min([4,6,3,8,10,0,9])) #0
+print(min("python")) #h
+
+# oct() - 정수를 8진수 문자열로 리턴
+print(oct(20)) #0o24 
+
+# open(파일이름, mode)
+# mode : w: 새로쓰기, r: 읽기, a: 이어쓰기(없으면새로),
+# b: binary (b는 w,r,a와 같이 사용)
+
+
+# ord() - 문자를 유니코드 숫자로 리턴
+print(ord('A'))
+print(ord("가"))
+
+# pow(x,y) - x를 y제곱한 값을 리턴
+print(pow(2,5)) # 2의 5승 = 32
+
+# range(x) - 0부터 x-1까지
+# range(x,y) - x부터 y-1까지
+# range(x,y,step) - x부터 y-1까지 step 단위로
+print(list(range(10)))
+print(list(range(0,10)))
+print(list(range(0,10,1)))
+
+
+# round() - 숫자를 입력받아서 반올림해서 리턴
+print(round(4.3))
+print(round(4.7))
+print(round(3.141592, 2)) # 소수점 2자리까지 반올림해서 보여준다.
+
+# sorted() - 입력데이터를 정렬 리스트로 리턴
+print(sorted([6,3,4,9,7,4,5]))
+print(sorted("python"))
+print(sorted((3,2,1)))
+
+# str() - 입력값을 문자열 형태로 리턴
+print(str(3) + "Hi")
+print(str(('p', 'y', 't', 'h', 'o', 'n'))) # 넣어준 형태 그대로 저장
+
+# sum() - 입력값을 전부 더해서 리턴
+print(sum([1,2,3,4,5])) #15
+
+# tuple() - 반복가능한데이터를 tuple 형태로 리턴
+print(tuple([1,2,3,4,5]))
+print(tuple("python"))
+
+# type() - 입력값이 어떤 형태의 객체인지 리턴하는 함수
+print(type("abd"))
+print(type(3))
+print(type(3.14))
+print(type([1,2,3]))
+print(type((1,2,3)))
+print(type(open("test","w")))
+
+# zip() - 동일한 갯수로 이루어진 데이터를 묶어서 리턴
+result = list(zip([1,2,3], [4,5,6]))
+print(result)
+result = list(zip("abc", "def"))
+print(result)
