@@ -1,0 +1,2352 @@
+
+
+
+<!DOCTYPE HTML>
+<html lang="ko">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="mzkAy71X1qQFWihQN535LoiToXg34MUg9nuor7Og9E8" />
+    <meta name="naver-site-verification" content="a7b53e9ea172d3cefcc05eaba6ebf7180eca08fa" />
+    
+<meta name="description" content="먼저 대표적인 조건문인 if 문부터 알아보자.   [TOC]  ## if 문은 왜 필요할까?  다음과 같은 상상을 해 보자.  ```no-highlight ‘돈이 있으면 택시를 …">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="위키독스">
+<meta property="og:title" content="03-1 if문">
+<meta property="og:description" content="먼저 대표적인 조건문인 if 문부터 알아보자.   [TOC]  ## if 문은 왜 필요할까?  다음과 같은 상상을 해 보자.  ```no-highlight ‘돈이 있으면 택시를 …">
+<meta property="og:image" content="https://wikidocs.net/images/book/j2p_cover_4pwFNUD_Lirmdrv_U1UQjo8_e0LkdJf_RfBYr9e_HuNZjDQ_GPEKYKk_TiflQiw_bpi6gBP_c_nzQpBHv.jpg">
+<meta property="og:url" content="https://wikidocs.net/20">
+
+    <link rel="shortcut icon" type="image/x-icon" href="/static/img/favicon.ico">
+    <link rel="canonical" href="https://wikidocs.net/book/1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap">
+    <title>03-1 if문 - 점프 투 파이썬</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    
+
+    
+    <link type="text/css" id="main-stylesheet" href="/static/book/css/style_stack.css?v=13" rel="stylesheet"  media="screen" />
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="/static/book/js/utils.js"></script>
+    <script type="text/javascript" src="/static/book/js/base.js?v=1"></script>
+    <script type="text/javascript">
+    function recommend_book(book_id) {
+        var msg = [];
+        msg.push('<div class="alert alert-info">');
+        msg.push('<p><strong>책을 추천합니다.</strong></p>');
+        msg.push('정말로 추천하시겠습니까?</p>');
+        msg.push('</div>');
+        msg.push('<span class="muted">※ 추천취소는 불가능합니다.</span>');
+        apprise(msg.join(''), {'verify':true}, function(r) {
+            if(r) {
+                location.href = "/book/recommend/"+book_id;
+            }
+        });
+        return;
+    }
+    </script>
+    
+
+<!-- 자동광고 -->
+
+<!-- 포인트 광고 -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9470517771012578" crossorigin="anonymous"></script>
+
+<script type="text/javascript" src="/static/book/js/ads.js?v=18"></script>
+
+
+
+
+
+<link type="text/css" href="/static/apprise/apprise.min.css" rel="stylesheet"  />
+
+<link type="text/css" id="markdown-stylesheet" href="/static/book/css/markdown_stack.css?v=13" rel="stylesheet" />
+<link rel="stylesheet" id="highlight-stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/default.min.css">
+
+<link type="text/css" href="/static/treeview/bootstrap-treeview.min.css" rel="stylesheet" />
+<link type="text/css" href="/static/book/css/copycode.css" rel="stylesheet" />
+<script type="text/javascript" src="/static/apprise/apprise-1.5.min.js"></script>
+<script type="text/javascript" src="/static/scroll/jquery.nicescroll.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/highlight.min.js"></script>
+<!-- 수식입력 mathjax -->
+<script>
+window.MathJax = {
+  options: {
+    ignoreHtmlClass: 'tex2jax_ignore',
+    processHtmlClass: 'tex2jax_process'
+  },
+  loader: {load: ['[tex]/physics', '[tex]/braket']},
+  tex: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    packages: {'[+]': ['physics', 'braket']}
+  }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script>
+$(document).ready(function () {
+    $("#show_toc_btn").click(function () {
+        $(".toc").removeClass("hide");
+        $(".toc").show();
+        $("#show_toc_btn").hide();
+    });
+    $("#feedback_btn").click(function () {
+        var page_id = $("#page_id").val();
+        var email = $("#email").val();
+        var feedback = $("#feedback").val();
+        if (!email) {
+            apprise('답장받을 이메일을 입력하세요.', {}, function () {
+                $("#email").focus();
+            });
+            return;
+        }
+        if (!validateEmail(email)) {
+            apprise('이메일을 정확하게 입력 해 주세요.', {}, function () {
+                $("#email").focus();
+            });
+            return;
+        }
+        if (!feedback) {
+            apprise('피드백을 입력하세요.', {}, function () {
+                $("#feedback").focus();
+            });
+            return;
+        }
+        $.post("/feedback", {
+            "page_id": page_id,
+            "email": email,
+            "feedback": feedback
+        }, function (data) {
+            apprise('피드백을 남겨주셔서 감사합니다.', {}, function () {
+                $('#myModal').modal('hide');
+            });
+        }, "html");
+    });
+    $("#report_btn").click(function () {
+        var comment_id = $("#comment_id").val();
+        var report = $("#report").val();
+        if (!report) {
+            apprise('신고사유를 입력하세요.', {}, function () {
+                $("#report").focus();
+            });
+            return;
+        }
+        $.post("/page/comment/report", {
+            "comment_id": comment_id,
+            "report": report
+        }, function (result) {
+            if(result.success) {
+                apprise('신고가 접수되었습니다. 검토까지는 최대 24시간 소요됩니다.', {}, function () {
+                    $('#reportModal').modal('hide');
+                });
+            }else {
+                $('#reportModal').modal('hide');
+                alert(result.message);
+            }
+        }, "json");
+    });
+    $("body").on('click', "#comment_btn", function () {
+        var content = $("#content").val();
+        if (!content) {
+            apprise('댓글을 입력해 주세요', {verify: false}, function (r) {
+                $("#content").focus();
+            });
+            return false;
+        }
+        $.post("/page/comment/save", {
+            "page_id": $("#page_id").val(),
+            "content": content
+        }, function (result) {
+            if (result.success) {
+                get_page_comments(result.page_id);
+            }else {
+                alert(result.message);
+            }
+        }, "json");
+    });
+    $('a[href="#top"]').click(function () {
+        $('html,body').animate({ scrollTop: $("body").offset().top},
+            {duration: 'normal', easing: 'swing'});
+        return false;
+    });
+    var hash = window.location.hash;
+    if(hash.indexOf("#comment") != -1) {
+        show_comments();
+    }
+    // 외부 링크는 새창으로 열도록 수정.
+    $('a').each(function() {
+        var a = new RegExp('/' + window.location.host + '/');
+        try {
+            if(this.href && !a.test(this.href) && this.href.indexOf('wikidocs.net') === -1 && this.href.startsWith('http')) {
+                $(this).click(function(event) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    window.open(this.href, '_blank');
+                });
+            }
+        }catch(e) {
+        }
+    });
+    var is_mobile = "True";
+    let _trigger = 'click';  // focus(다른 곳 클릭시 팝업 닫힘), click 
+    let _hide = 0;  // focus일 때는 200이 적당
+    if (is_mobile == "True") {
+        _trigger = 'click';
+        _hide = 0;
+    }
+    $('.wiki_link').on('click', function(event) {
+        var el = $(this);
+        el.off(event);
+        let _title = el.data('title');
+        _title = "<a class='wiki_title' href='/wiki/"+_title+"' target='_wiki'>" +_title + "</a>"+
+                '<button style="margin-left:10px;" type="button" id="close" class="close">&times;</button>';
+        // add initial popovers with LOADING text
+        el.popover({
+            title: _title,
+            content: "loading...", // maybe some loading animation like <img src='loading.gif />
+            html: true,
+            placement: "bottom",
+            container: 'body',
+            trigger: _trigger,
+            delay: {"show": 0, "hide": _hide}
+        }).on('shown.bs.popover', function (eventShown) {
+            var $popup = $('#' + $(eventShown.target).attr('aria-describedby'));
+            $popup.find('button.close, a.wiki_title, a.inner_link').click(function (e) {
+                el.trigger('click');
+            });
+        });
+        // requesting data from unsing url from data-poload attribute
+        $.get(el.data('wiki'), function (d) {
+            let $tempDiv = $('<div>').html(d);
+            $tempDiv.find('a').attr('target', '_blank');
+            d = $tempDiv.html();
+            // set new content to popover
+            el.data('bs.popover').options.content = d;
+            // reshow popover with new content
+            // el.popover('show');
+            el.trigger('click');
+        });
+    });
+});
+
+$(window).load(function () {
+    if (!TOC_HEIGHT) {
+//        init_toc();
+    }
+    resizeMenu();
+});
+
+function resizeMenu() {
+    var wh = $(window).height() - 220;
+    var ph = get_height(".page");
+    var h = Math.max(wh, ph);
+    $(".scrollable-menu").css("max-height", h+"px");
+}
+
+function touch_toc() {
+    if ($(".page img").length == 0) {
+        init_toc();
+    }
+}
+
+var TOC_HEIGHT;
+function init_toc() {
+    var selected_toc_li_top = $(".selected_toc_li").offset().top;
+    var page_height = get_height(".page");
+    var toc_height = get_height(".toc-area");
+    TOC_HEIGHT = toc_height;
+    if (toc_height >= 480) {
+        if (page_height - 145 <= 480) {
+            $(".toc-area").css("height", (page_height - 145) + "px");
+            $(".toc-open").show();
+            $(".toc-area").niceScroll({"cursorcolor": "#888"});
+            $(".toc-area").scrollTop(selected_toc_li_top - 200);
+        } else if (toc_height > 480) {
+            $(".toc-area").css("height", "480px");
+            $(".toc-open").show();
+            $(".toc-area").niceScroll({"cursorcolor": "#888"});
+            $(".toc-area").scrollTop(selected_toc_li_top - 200);
+        }
+    }
+    if (page_height > 480 + 300) {
+        $(".toc-ads").show();
+    }
+}
+
+function open_toc() {
+    $(".toc-area").css("overflow-y", "visible");
+    $(".toc-area").css("height", TOC_HEIGHT + "px");
+    $(".toc-open").hide();
+}
+
+function get_height(element) {
+    var _height = $(element).css("height");
+    return parseInt(_height.split("px")[0]);
+}
+
+function remove_comment(comment_id) {
+    apprise('정말로 삭제하시겠습니까?', {verify: true}, function (r) {
+        if (r) {
+            $.post("/page/comment/remove", {
+                "comment_id": comment_id
+            }, function (result) {
+                if (result.success) {
+                    get_page_comments(result.page_id);
+                }else {
+                    alert(result.message);
+                }
+            }, "json");
+        }
+    });
+}
+
+function reply_comment(comment_name) {
+    $(".user_comments #content").val("@"+comment_name+"님 ");
+    $(".user_comments #content").focus();
+}
+
+function show_comments() {
+    $(".user_comments").toggle();
+}
+
+function show_book_comments() {
+    $(".pages").css("display", "none");
+    $(".comments").toggle();
+}
+
+function show_book_pages() {
+    $(".comments").css("display", "none");
+    $(".pages").toggle();
+}
+
+function get_all_page_comments(page_id) {
+    $.ajax({
+        type: "POST",
+        url: "/page/comment/all",
+        data: {'page_id': page_id},
+        dataType: "html",
+        success: function(data) {
+            $("#page_all_comments").html(data);
+        }
+    });
+}  
+
+function get_page_comments(page_id) {
+    $.ajax({
+        type: "POST",
+        url: "/page/comment/get",
+        data: {'page_id': page_id},
+        dataType: "html",
+        success: function(data) {
+            $(".comments").html(data);
+            $("#content").val("");
+        }
+    });
+}
+
+function report_modal(comment_id) {
+    $("#comment_id").val(comment_id);
+    $('#reportModal').modal('show')
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    var page = document.querySelector('.page');
+    var adContainers = document.querySelectorAll('.ad-container');
+    
+    function checkWidth() {
+        var pageWidth = page.offsetWidth;
+        adContainers.forEach(function(container) {
+            var secondAd = container.querySelector('.second-ad');
+            var firstAd = container.querySelector('.first-ad');
+            if (secondAd && firstAd) {
+                var containerWidth = container.offsetWidth;
+                var firstAdWidth = firstAd.offsetWidth;
+                var secondAdWidth = secondAd.offsetWidth;
+                
+                if (containerWidth < firstAdWidth + secondAdWidth + 50) {
+                    secondAd.style.display = 'none';
+                } else {
+                    secondAd.style.display = 'block';
+                }
+            }
+        });
+    }
+    
+    // 초기 실행
+    checkWidth();
+    
+    // 창 크기가 변경될 때마다 실행
+    // window.addEventListener('resize', checkWidth);
+});
+</script>
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6N5MJRGLWG"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-6N5MJRGLWG');
+    </script>
+</head>
+<body>
+
+<!-- PC -->
+
+
+
+
+
+
+<div class="container" style="padding-bottom:50px">
+
+<div class="content row tex2jax_ignore" style="margin-top:0px;">
+    <div class="col-sm-3">
+        
+<div class="row">
+    <div class="col-sm-3 sidebar" style="padding:0;margin:0;overflow-x: hidden;">
+        
+        <div class="row" style="display:none;">
+            <div class="col-xs-12" style="border-bottom:solid 1px #ddd;">
+                <button id="toggle_toc_btn" class="btn btn-sm btn-default" style="margin:10px;">목차보기</button>
+                <label for="toc_on" class="small">
+                    <input type="radio" id="toc_on" name="toc_on_off" value="show"> Show
+                </label>
+                <label for="toc_off" class="small">
+                    <input type="radio" id="toc_off" name="toc_on_off" value="hide"> Hide
+                </label>
+            </div>
+        </div>
+        
+        <div class="toc toc-checker">
+            <div class="row">
+                <div class="col-xs-12" style="padding:0;">
+                    <div class="row clearfix" style="margin:0;padding:0;border-bottom:solid 1px #ccc;">
+                        <div class="pull-left" style="width:75%;">
+                            <input type="text" style="margin-left:15px;" id="kw" name="kw" class="input-search" placeholder="검색어를 입력하세요." autocomplete="off">
+                            <ul id="search-results" class="dropdown-menu" aria-labelledby="kw"></ul>
+                        </div>
+                        <div class="pull-right">
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="list-group list-group-toc" style="margin:0;">
+                <a class="list-group-item " href="/book/1" style="margin:0;">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;" title="점프 투 파이썬">
+                        
+                            <i class="glyphicon glyphicon-book"></i>
+                        
+                        <strong>점프 투 파이썬</strong>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(2)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="00장 들어가기 전에">
+                        <span style="padding-left:0px">
+                        
+                        00장 들어가기 전에
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(4319)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="00-1 머리말">
+                        <span style="padding-left:20px">
+                        
+                        00-1 머리말
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(4320)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="00-2 저자소개">
+                        <span style="padding-left:20px">
+                        
+                        00-2 저자소개
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(202337)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="00-3 동영상 강의">
+                        <span style="padding-left:20px">
+                        
+                        00-3 동영상 강의
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(202412)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="00-4 소스 코드">
+                        <span style="padding-left:20px">
+                        
+                        00-4 소스 코드
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(4321)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="00-5 책 구입 안내">
+                        <span style="padding-left:20px">
+                        
+                        00-5 책 구입 안내
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(742)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="00-6 주요변경이력">
+                        <span style="padding-left:20px">
+                        
+                        00-6 주요변경이력
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(5)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="01장 파이썬이란 무엇인가?">
+                        <span style="padding-left:0px">
+                        
+                        01장 파이썬이란 무엇인가?
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(4307)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="01-1 파이썬이란?">
+                        <span style="padding-left:20px">
+                        
+                        01-1 파이썬이란?
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(6)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="01-2 파이썬의 특징">
+                        <span style="padding-left:20px">
+                        
+                        01-2 파이썬의 특징
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(7)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="01-3 파이썬으로 무엇을 할 수 있을까?">
+                        <span style="padding-left:20px">
+                        
+                        01-3 파이썬으로 무엇을 할 수 있을까?
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(8)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="01-4 파이썬 설치하기">
+                        <span style="padding-left:20px">
+                        
+                        01-4 파이썬 설치하기
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(9)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="01-5 파이썬 둘러보기">
+                        <span style="padding-left:20px">
+                        
+                        01-5 파이썬 둘러보기
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(17684)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="01-6 파이썬과 에디터">
+                        <span style="padding-left:20px">
+                        
+                        01-6 파이썬과 에디터
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(11)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="02장 파이썬 프로그래밍의 기초, 자료형">
+                        <span style="padding-left:0px">
+                        
+                        02장 파이썬 프로그래밍의 기초, 자료형
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(12)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="02-1 숫자형">
+                        <span style="padding-left:20px">
+                        
+                        02-1 숫자형
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(13)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="02-2 문자열 자료형">
+                        <span style="padding-left:20px">
+                        
+                        02-2 문자열 자료형
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(14)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="02-3 리스트 자료형">
+                        <span style="padding-left:20px">
+                        
+                        02-3 리스트 자료형
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(15)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="02-4 튜플 자료형">
+                        <span style="padding-left:20px">
+                        
+                        02-4 튜플 자료형
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(16)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="02-5 딕셔너리 자료형">
+                        <span style="padding-left:20px">
+                        
+                        02-5 딕셔너리 자료형
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(1015)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="02-6 집합 자료형">
+                        <span style="padding-left:20px">
+                        
+                        02-6 집합 자료형
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(17)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="02-7 불 자료형">
+                        <span style="padding-left:20px">
+                        
+                        02-7 불 자료형
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(18)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="02-8 자료형의 값을 저장하는 공간, 변수">
+                        <span style="padding-left:20px">
+                        
+                        02-8 자료형의 값을 저장하는 공간, 변수
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(180351)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="02장 되새김 문제">
+                        <span style="padding-left:20px">
+                        
+                        02장 되새김 문제
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(19)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="03장 프로그램의 구조를 쌓는다! 제어문">
+                        <span style="padding-left:0px">
+                        
+                        03장 프로그램의 구조를 쌓는다! 제어문
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(20)" class="list-group-item active">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="03-1 if문">
+                        <span style="padding-left:20px">
+                        
+                        03-1 if문
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(21)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="03-2 while문">
+                        <span style="padding-left:20px">
+                        
+                        03-2 while문
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(22)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="03-3 for문">
+                        <span style="padding-left:20px">
+                        
+                        03-3 for문
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(180354)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="03장 되새김 문제">
+                        <span style="padding-left:20px">
+                        
+                        03장 되새김 문제
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(23)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="04장 파이썬의 입출력">
+                        <span style="padding-left:0px">
+                        
+                        04장 파이썬의 입출력
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(24)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="04-1 함수">
+                        <span style="padding-left:20px">
+                        
+                        04-1 함수
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(25)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="04-2 사용자 입출력">
+                        <span style="padding-left:20px">
+                        
+                        04-2 사용자 입출력
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(26)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="04-3 파일 읽고 쓰기">
+                        <span style="padding-left:20px">
+                        
+                        04-3 파일 읽고 쓰기
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(180507)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="04-4 프로그램의 입출력">
+                        <span style="padding-left:20px">
+                        
+                        04-4 프로그램의 입출력
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(180356)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="04장 되새김 문제">
+                        <span style="padding-left:20px">
+                        
+                        04장 되새김 문제
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(27)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="05장 파이썬 날개 달기">
+                        <span style="padding-left:0px">
+                        
+                        05장 파이썬 날개 달기
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(28)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="05-1 클래스">
+                        <span style="padding-left:20px">
+                        
+                        05-1 클래스
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(29)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="05-2 모듈">
+                        <span style="padding-left:20px">
+                        
+                        05-2 모듈
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(1418)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="05-3 패키지">
+                        <span style="padding-left:20px">
+                        
+                        05-3 패키지
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(30)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="05-4 예외 처리">
+                        <span style="padding-left:20px">
+                        
+                        05-4 예외 처리
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(32)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="05-5 내장 함수">
+                        <span style="padding-left:20px">
+                        
+                        05-5 내장 함수
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(33)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="05-6 표준 라이브러리">
+                        <span style="padding-left:20px">
+                        
+                        05-6 표준 라이브러리
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(180538)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="05-7 외부 라이브러리">
+                        <span style="padding-left:20px">
+                        
+                        05-7 외부 라이브러리
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(180359)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="05장 되새김 문제">
+                        <span style="padding-left:20px">
+                        
+                        05장 되새김 문제
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(34)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="06장 파이썬 프로그래밍, 어떻게 시작해야 할까?">
+                        <span style="padding-left:0px">
+                        
+                        06장 파이썬 프로그래밍, 어떻게 시작해야 할까?
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(35)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="06-1 내가 프로그램을 만들 수 있을까?">
+                        <span style="padding-left:20px">
+                        
+                        06-1 내가 프로그램을 만들 수 있을까?
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(40)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="06-2 3과 5의 배수를 모두 더하기">
+                        <span style="padding-left:20px">
+                        
+                        06-2 3과 5의 배수를 모두 더하기
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(38)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="06-3 게시판 페이징하기">
+                        <span style="padding-left:20px">
+                        
+                        06-3 게시판 페이징하기
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(36)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="06-4 간단한 메모장 만들기">
+                        <span style="padding-left:20px">
+                        
+                        06-4 간단한 메모장 만들기
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(37)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="06-5 탭 문자를 공백 문자 4개로 바꾸기">
+                        <span style="padding-left:20px">
+                        
+                        06-5 탭 문자를 공백 문자 4개로 바꾸기
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(39)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="06-6 하위 디렉터리 검색하기">
+                        <span style="padding-left:20px">
+                        
+                        06-6 하위 디렉터리 검색하기
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(184208)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="07장 파이썬 날아오르기">
+                        <span style="padding-left:0px">
+                        
+                        07장 파이썬 날아오르기
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(184209)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="07-1 파이썬과 유니코드">
+                        <span style="padding-left:20px">
+                        
+                        07-1 파이썬과 유니코드
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(184210)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="07-2 클로저와 데코레이터">
+                        <span style="padding-left:20px">
+                        
+                        07-2 클로저와 데코레이터
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(184211)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="07-3 이터레이터와 제너레이터">
+                        <span style="padding-left:20px">
+                        
+                        07-3 이터레이터와 제너레이터
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(184212)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="07-4 파이썬 타입 어노테이션">
+                        <span style="padding-left:20px">
+                        
+                        07-4 파이썬 타입 어노테이션
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(1669)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="08장 정규표현식">
+                        <span style="padding-left:0px">
+                        
+                        08장 정규표현식
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(1642)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="08-1 정규 표현식 살펴보기">
+                        <span style="padding-left:20px">
+                        
+                        08-1 정규 표현식 살펴보기
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(4308)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="08-2 정규 표현식 시작하기">
+                        <span style="padding-left:20px">
+                        
+                        08-2 정규 표현식 시작하기
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(4309)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="08-3 강력한 정규 표현식의 세계로">
+                        <span style="padding-left:20px">
+                        
+                        08-3 강력한 정규 표현식의 세계로
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(202338)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="09장 부록">
+                        <span style="padding-left:0px">
+                        
+                        09장 부록
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(180361)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="09-1 파이썬 코딩 면허 시험 20제">
+                        <span style="padding-left:20px">
+                        
+                        09-1 파이썬 코딩 면허 시험 20제
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(193066)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="09-2 챗GPT와 함께 파이썬 공부하기">
+                        <span style="padding-left:20px">
+                        
+                        09-2 챗GPT와 함께 파이썬 공부하기
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(180362)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="10장 정답 및 풀이">
+                        <span style="padding-left:0px">
+                        
+                        10장 정답 및 풀이
+                        </span>
+                    </span>
+                </a>
+                
+                <a href="javascript:page(78308)" class="list-group-item ">
+                    <span style="white-space:nowrap;overflow:hidden;display:block;"
+                          title="마치며.">
+                        <span style="padding-left:0px">
+                        
+                        마치며.
+                        </span>
+                    </span>
+                </a>
+                
+            </div>
+        </div>
+        
+        <input type="hidden" name="request_mobile" id="request_mobile" value="0" />
+    </div>
+</div>
+<script>
+function myTrim(x) {
+    return x.replace(/^\s+|\s+$/gm,'');
+}
+function search_json() {
+    var kw = myTrim($("#kw").val());
+    if(!kw) {
+        return;
+    }
+    location.href = "/book/search/result/1?keyword="+kw;
+}
+$(document).ready(function () {
+    $(".book-search").on("click", function() {
+        $("#search_form").submit();
+    });
+    $("#mobile_search_btn").on("click", function() {
+        search_json();
+    });
+    $(".home").on("click", function() {
+        location.href = "/";
+    });
+    if (typeof(Storage) !== "undefined") {
+        if(localStorage.sidebar == "hidden") {
+            menuToggle();
+        }else {
+            $(".sidebar").show();
+            $(".toc-header").show();
+        }
+    }else {
+        $(".sidebar").show();
+        $(".toc-header").show();
+    }
+    $(".toc").css("display", "block");
+    if (typeof(Storage) !== "undefined") {
+        $(".sidebar").scrollTop(localStorage.sp);
+    }
+    var $activeItem = $(".list-group-item.active");
+    if ($activeItem.length) {
+        var sidebar = $(".sidebar");
+        var sidebarTop = sidebar.offset().top;
+        var sidebarBottom = sidebarTop + sidebar.height();
+        var itemTop = $activeItem.offset().top;
+        var itemBottom = itemTop + $activeItem.outerHeight();
+        // 선택된 메뉴 항목이 현재 보이는 영역 내에 있는지 확인
+        if (itemTop < sidebarTop || itemBottom > sidebarBottom) {
+            var scrollPosition = sidebar.scrollTop() + (itemTop - sidebarTop);
+            sidebar.scrollTop(scrollPosition);
+        }
+    }
+    $(".sidebar").css("overflow-y", "auto");
+    $(".toc_item").on("click", function() {
+        var page_id = $(this).attr("page_id");
+        page(page_id);
+    });
+    $(".menu-toggle").on("click", function() {
+        menuToggle();
+        if (typeof(Storage) !== "undefined") {
+            if(localStorage.sidebar == "hidden") {
+                localStorage.sidebar = "show";
+            }else {
+                localStorage.sidebar = "hidden";
+            }
+        }
+    });
+    
+    $("input[name=toc_on_off]").on("click", function() {
+        var result = $(this).val();
+        if (typeof(Storage) !== "undefined") {
+            localStorage.toc = result;
+        }
+    });
+    if (typeof(Storage) !== "undefined") {
+        if (localStorage.getItem("toc") === null) {  // init value
+            localStorage.toc = "hide";
+        }
+        if(localStorage.toc == "hide") {
+            $('#toc_off').prop('checked', true);
+            $(".toc-checker").hide();
+        }else {
+            $('#toc_on').prop('checked', true);
+            $(".toc-checker").removeClass("hide");
+            $(".toc-checker").show();
+        }
+    }
+    
+    $("#load_content").show();
+});
+
+function menuToggle(no_sidebar) {
+    if(!no_sidebar) {
+        $(".sidebar").toggle();
+        $(".toc-header").toggle();
+    }
+    $("#load_content").toggleClass("col-sm-offset-3");
+    $("#load_content").toggleClass("col-sm-9");
+    $("#load_content").toggleClass("col-sm-12");
+    $("#load_content").toggleClass("sidebar-padding");
+    $(".prev_next_indicator").toggle();
+    $(".menu-group").toggle();
+}
+
+function page(no) {
+    var scrollpos = $(".sidebar").scrollTop();
+    if (typeof(Storage) !== "undefined") {
+        localStorage.sp = scrollpos;
+    }
+    location.href = "/"+no;
+    return false;
+    $(".selected_toc").removeClass("selected_toc");
+    $(".toc_item").each(function() {
+        var page_id = $(this).attr("page_id");
+        if(page_id == no) {
+            $(this).addClass("selected_toc");
+        }
+    });
+    var url = "/load/"+no;
+    $("#load_content").load(url, function(responseTxt, statusTxt, xhr){
+        if(statusTxt == "success") {
+            $("#load_content").scrollTop(0);
+            window.history.pushState("object or string", "03-1 if문", "/"+no);
+        }
+        if(statusTxt == "error") {
+            alert("Error: " + xhr.status + ": " + xhr.statusText);
+        }
+    });
+}
+/* search keyword */
+$(document).ready(function() {
+    const $searchInput = $('#kw');
+    const $searchResults = $('#search-results');
+    const ajax_search = function(event) {
+        var query = $searchInput.val().trim();
+        if (query.length >= 1) {  // 예시로 2글자 이상 입력될 때 검색을 시작합니다.
+            $.ajax({
+                url: '/book/search.json/',  // 검색 요청을 처리할 서버의 URL
+                data: {
+                    'kw': query,
+                    'book_id': '1',
+                },
+                dataType: 'json',
+                success: function(data) {
+                    $searchResults.empty();
+                    if (data.results.length > 0) {
+                        data.results.forEach(function(item) {
+                            $searchResults.append('<li class="dropdown-item result-item" data-url="/'+item.id+'">' + item.subject + '</li>');
+                        });
+                        $searchResults.show();
+                    } else {
+                        $searchResults.hide();
+                    }
+                }
+            });
+        } else {
+            $searchResults.empty().hide();
+        }
+    }
+    $searchInput.on('keydown', function(event) {
+        if (event.key === 'ArrowDown') {
+            event.preventDefault();
+            const $results = $searchResults.find('li');
+            if ($results.length > 0) {
+                $results.first().addClass('active').attr('tabindex', -1).focus();
+            }
+        }else if(event.key == 'Escape') {
+            $searchResults.empty().hide();
+            $searchInput.val('');
+            $searchInput.attr('tabindex', -1).focus();
+        }
+    });
+    $searchInput.on('keyup', function(event) {
+        if (event.key === 'Enter') {
+            let val = $(this).val();
+            if (val.length >= 1) {
+                window.location.href = "/book/search/result/1?find_kw="+val+"&exact_match=1&page=1";
+            }
+        }else if(event.key == 'Escape') {
+            $searchResults.empty().hide();
+            $searchInput.val('');
+            $searchInput.attr('tabindex', -1).focus();
+        }else if (!event.key.startsWith('Arrow')) {
+            ajax_search(event);
+        }
+    });
+    $searchResults.on('keydown', 'li', function(event) {
+        const $results = $searchResults.find('li');
+        const currentIndex = $results.index(this);
+        if (event.key === 'ArrowDown') {
+            event.preventDefault();
+            const nextIndex = (currentIndex + 1) % $results.length;
+            $results.removeClass('active');
+            $results.eq(nextIndex).addClass('active').attr('tabindex', -1).focus();            
+        } else if (event.key === 'ArrowUp') {
+            event.preventDefault();
+            $results.removeClass('active');
+            if(currentIndex == 0) {
+                $searchInput.attr('tabindex', -1).focus();
+            }else {
+                const prevIndex = (currentIndex - 1 + $results.length) % $results.length;
+                $results.eq(prevIndex).addClass('active').attr('tabindex', -1).focus();
+            }
+        }else if(event.key == 'Enter') {
+            window.location.href = $(this).data('url');
+        }else if(event.key == 'Escape') {
+            $searchResults.empty().hide();
+            $searchInput.val('');
+            $searchInput.attr('tabindex', -1).focus();
+        }
+    });
+    $(document).on('click', function(event) {
+        if(event.target !== $searchResults[0]) {
+            $searchResults.empty().hide();
+        }
+    });
+    $(document).on('click', ".result-item", function(event) {
+        window.location.href = $(this).data('url');
+    });
+    $(".find-btn").on('click', function(event) {
+        let val = $searchInput.val();
+        window.location.href = "/book/search/result/1?find_kw="+val+"&exact_match=1&page=1";
+    })
+});
+</script>
+
+    </div>
+    <div class="page col-sm-offset-3 col-sm-9" id="load_content" style="display:none;margin-top:0px;">
+        
+
+
+
+
+
+
+
+<div class="btn-group pull-right menu-group" role="group">
+    <button class="btn btn-xs btn-default menu_link menu-toggle">
+        <i class="glyphicon glyphicon-menu-hamburger" title="메뉴"></i>
+    </button>
+</div>
+<div class="menu-wikidocs">
+</div>
+
+
+
+<div class="clearfix page-depth">
+    <ol class="breadcrumb pull-left">
+        <li><small><a href="/book/1"><i class="glyphicon glyphicon-book"></i> <strong>점프 투 파이썬</strong></a></small></li>
+        
+        <li><small><a href="/19">03장 프로그램의 구조를 쌓는다! 제어문</a></small></li>
+        
+        <li><small><a href="/20">03-1 if문</a></small></li>
+        
+    </ol>
+    
+    <ol class="breadcrumb pull-right">
+        
+
+        
+        <li>
+            <a href="/"><small class="logo"><i class="glyphicon glyphicon-home"></i> 위키독스</small></a>
+        </li>
+    </ol>
+    
+</div>
+
+<h1 class="page-subject">
+    03-1 if문
+    
+</h1>
+<!-- google adsense -->
+<!-- PC -->
+
+
+<!-- Mobile -->
+
+    
+        <div style="margin:20px 0;">
+            <!-- 위키독스 포인트 광고 -->
+            <!-- 위키독스모바일2020 -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9470517771012578" crossorigin="anonymous"></script>
+<ins class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-9470517771012578"
+        data-ad-slot="4465552259"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+<script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+        </div>
+    
+
+
+<!-- google adsense -->
+<div class="page-content tex2jax_process">
+    
+    <p>먼저 대표적인 조건문인 if 문부터 알아보자.</p>
+<div class="toc">
+<ul>
+<li><a href="#if">if 문은 왜 필요할까?</a></li>
+<li><a href="#if_1">if 문의 기본 구조</a></li>
+<li><a href="#_1">들여쓰기 방법 알아보기</a></li>
+<li><a href="#_2">조건문이란 무엇인가?</a><ul>
+<li><a href="#_3">비교 연산자</a></li>
+<li><a href="#and-or-not">and, or, not</a></li>
+<li><a href="#in-not-in">in, not in</a></li>
+</ul>
+</li>
+<li><a href="#elif">다양한 조건을 판단하는 elif</a></li>
+<li><a href="#_4">조건부 표현식</a></li>
+</ul>
+</div>
+<h2 id="if">if 문은 왜 필요할까?</h2>
+<p>다음과 같은 상상을 해 보자.</p>
+<pre><code class="language-no-highlight">‘돈이 있으면 택시를 타고 가고, 돈이 없으면 걸어간다.’
+</code></pre>
+<p>우리 모두에게 일어날 수 있는 상황 중 하나이다. 프로그래밍도 사람이 하는 것이므로 위 문장처럼 주어진 조건을 판단한 후 그 상황에 맞게 처리해야 할 경우가 생긴다. 이렇듯 프로그래밍에서 조건을 판단하여 해당 조건에 맞는 상황을 수행하는 데 쓰는 것이 바로 if 문이다.</p>
+<p>파이썬에서는 위와 같은 상황을 다음과 같이 표현할 수 있다.</p>
+<pre><code class="language-python">&gt;&gt;&gt; money = True
+&gt;&gt;&gt; if money:
+...     print(&quot;택시를 타고 가라&quot;)
+... else:
+...     print(&quot;걸어 가라&quot;)
+...
+택시를 타고 가라
+</code></pre>
+<p>money에 True를 대입했으므로 money는 참이다. 따라서 if 문 다음 문장이 수행되어 '택시를 타고 가라'가 출력된다.</p>
+<p>다음 순서도는 ‘택시를 타고 가라’라는 문장이 출력되는 과정을 보여 준다. 이렇게 프로그램 실행 과정을 순서도로 그려 보면 훨씬 이해하기 쉽다.</p>
+<p><img alt="" src="https://wikidocs.net/images/page/20/03_1_if1.png" /></p>
+<p><fieldset><legend>점프 투 파이썬</legend>
+<strong>IDLE 셸을 쓴다면 주의하세요</strong></p>
+<p>프롬프트(<code>&gt;&gt;&gt;</code>)가 보이는 이 책의 예제는 반드시 IDLE 셸이 아닌 파이썬 셸에서 실행하도록 하자. IDLE 셸에서는 줄 바꿈 표시(...)가 보이지 않아 들여쓰기 오류를 범할 가능성이 크다.</p>
+<p>하지만 파이썬 3.10부터는 IDLE 셸의 프롬프트(<code>&gt;&gt;&gt;</code>)와 줄 바꿈 표시(<code>...</code>)가 왼쪽의 분리된 영역에 나타나도록 개선되었다.</p>
+<p><img alt="" src="https://wikidocs.net/images/page/20/03_1_idle.png" /></p>
+<p>따라서 파이썬 3.10 이상의 버전을 사용한다면 이 책의 예제를 IDLE 셸에서 실행해도 괜찮다.
+</fieldset></p>
+<h2 id="if_1">if 문의 기본 구조</h2>
+<p>다음은 if와 else를 사용한 조건문의 기본 구조이다.</p>
+<pre><code class="language-python">if 조건문:
+    수행할_문장1
+    수행할_문장2
+    ...
+else:
+    수행할_문장A
+    수행할_문장B
+    ...
+</code></pre>
+<p>조건문을 테스트해서 참이면 if 문 바로 다음 문장(if 블록)들을 수행하고 조건문이 거짓이면 else 문 다음 문장(else 블록)들을 수행하게 된다. 따라서 else 문은 if 문 없이 독립적으로 사용할 수 없다.</p>
+<h2 id="_1">들여쓰기 방법 알아보기</h2>
+<p>if 문을 만들 때는 if 조건문: 바로 다음 문장부터 if 문에 속하는 모든 문장에 들여쓰기(indentation)를 해야 한다. 다음 예를 보면 조건문이 참일 경우 ‘수행할_문장1’을 들여쓰기했고 ‘수행할_문장2’와 ‘수행할_문장3’도 들여쓰기했다. 다른 프로그래밍 언어를 사용해 온 사람들은 파이썬에서 ‘수행할_문장’을 들여쓰기하는 것을 무시하는 경우가 많으므로 더 주의해야 한다.</p>
+<pre><code class="language-python">if 조건문:
+    수행할_문장1
+    수행할_문장2
+    수행할_문장3
+</code></pre>
+<p>다음처럼 작성하면 오류가 발생한다. ‘수행할_문장2’를 들여쓰기하지 않았기 때문이다.</p>
+<pre><code class="language-python">if 조건문:
+    수행할_문장1
+수행할_문장2
+    수행할_문장3
+</code></pre>
+<p>IDLE 에디터에서 다음과 같이 작성하여 실행해 보자. 여기에서는 오류가 발생하는지 확인만 하면 되므로 IDLE 에디터 창에 코드를 작성하고 <code>[F5]</code>를 눌러 바로 실행하자.</p>
+<pre><code class="language-python"># indent_error.py
+money = True
+if money:
+    print(&quot;택시를&quot;)
+print(&quot;타고&quot;)
+    print(&quot;가라&quot;)
+</code></pre>
+<p><img alt="" src="https://wikidocs.net/images/page/20/03_1_indent_error1.png" /></p>
+<blockquote>
+<p>들여쓰기 오류가 발생하는 것을 확인할 수 있다.</p>
+</blockquote>
+<p>다음과 같은 경우에도 오류가 발생한다. ‘수행할_문장3’을 들여쓰기했지만, ‘수행할_문장1’이나 ‘수행할_문장2’와 들여쓰기의 깊이가 다르다. 즉, 들여쓰기는 언제나 같은 깊이로 해야 한다.</p>
+<pre><code class="language-python">if 조건문:
+    수행할_문장1
+    수행할_문장2
+        수행할_문장3
+</code></pre>
+<p>IDLE 에디터에서 다음과 같이 작성하여 실행해 보자.</p>
+<pre><code class="language-python"># indent_error2.py
+money = True
+if money:
+    print(&quot;택시를&quot;)
+    print(&quot;타고&quot;)
+        print(&quot;가라&quot;)
+</code></pre>
+<p><img alt="" src="https://wikidocs.net/images/page/20/03_1_indent_error2.png" /></p>
+<p>마찬가지로 들여쓰기 오류가 발생하는 것을 확인할 수 있다.</p>
+<p>그렇다면 들여쓰기는 공백 문자(<code>[Spacebar]</code>)로 하는 것이 좋을까, 탭 문자(<code>[Tab]</code>)로 하는 것이 좋을까? 이에 대한 논란은 파이썬을 사용하는 사람들 사이에서 아직도 계속되고 있다. 공백 문자로 하자는 쪽과 탭 문자로 하자는 쪽 모두가 동의하는 내용은 2가지를 혼용해서 쓰지 말자는 것이다. 공백 문자로 할 것이라면 공백으로 통일하고, 탭 문자로 할 것이라면 탭으로 통일하자는 말이다. 탭이나 공백은 프로그램 소스에서 눈으로 보이는 것이 아니기 때문에 혼용해서 쓰면 오류의 원인이 되므로 주의하자.</p>
+<blockquote>
+<p>요즘 파이썬 커뮤니티에서는 들여쓰기를 할 때 공백 문자 4개를 사용하는 것을 권장한다. 또한 파이썬 에디터는 대부분 탭 문자로 들여쓰기를 하더라도 탭 문자를 공백 문자 4개로 자동 변환하는 기능을 갖추고 있다.</p>
+</blockquote>
+<p><fieldset><legend>점프 투 파이썬</legend>
+<strong>조건문 다음에 콜론(:)을 잊지 말자!</strong></p>
+<p>if 조건문 뒤에는 반드시 콜론(:)이 붙는다. 어떤 특별한 의미가 있다기보다는 파이썬의 문법 구조이다. 왜 하필 콜론(:)인지 궁금하다면 파이썬을 만든 귀도에게 직접 물어봐야 할 것이다. 앞으로 배울 while이나 for, def, class도 역시 문장의 끝에 콜론(:)이 항상 들어간다. 초보자들은 이 콜론(:)을 빠뜨리는 경우가 많으므로 특히 주의하자.</p>
+<p>파이썬이 다른 언어보다 보기 쉽고 소스 코드가 간결한 이유는 바로 콜론(:)을 사용하여 들여쓰기를 하도록 만들었기 때문이다. 하지만 이는 숙련된 프로그래머들이 파이썬을 처음 접할 때 제일 혼란스러워하는 부분이기도 하다. 다른 언어에서는 if 문에 속한 문장들을 {}로 감싸지만, 파이썬에서는 들여쓰기로 해결한다는 점을 기억하자.
+</fieldset></p>
+<p></p>
+<h2 id="_2">조건문이란 무엇인가?</h2>
+<p>if 조건문에서 ‘조건문’이란 참과 거짓을 판단하는 문장을 말한다.</p>
+<p>앞에서 살펴본 택시 예제에서 조건문은 money가 된다.</p>
+<pre><code class="language-python">&gt;&gt;&gt; money = True
+&gt;&gt;&gt; if money:
+</code></pre>
+<p>money는 True이기 때문에 조건이 참이 되어 if 문 다음 문장을 수행한다.</p>
+<h3 id="_3">비교 연산자</h3>
+<p>이번에는 조건문에 비교 연산자(&lt;, &gt;, ==, !=, &gt;=, &lt;=)를 쓰는 방법에 대해 알아보자.</p>
+<p>다음 표는 비교 연산자를 잘 설명해 준다.</p>
+<table>
+<thead>
+<tr>
+<th>비교연산자</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>x &lt; y</td>
+<td>x가 y보다 작다.</td>
+</tr>
+<tr>
+<td>x &gt; y</td>
+<td>x가 y보다 크다.</td>
+</tr>
+<tr>
+<td>x == y</td>
+<td>x와 y가 같다.</td>
+</tr>
+<tr>
+<td>x != y</td>
+<td>x와 y가 같지 않다.</td>
+</tr>
+<tr>
+<td>x &gt;= y</td>
+<td>x가 y보다 크거나 같다.</td>
+</tr>
+<tr>
+<td>x &lt;= y</td>
+<td>x가 y보다 작거나 같다.</td>
+</tr>
+</tbody>
+</table>
+<p>이제 이 연산자를 어떻게 사용하는지 알아보자.</p>
+<pre><code class="language-python">&gt;&gt;&gt; x = 3
+&gt;&gt;&gt; y = 2
+&gt;&gt;&gt; x &gt; y
+True
+&gt;&gt;&gt;
+</code></pre>
+<p>x에 3, y에 2를 대입한 후 <code>x &gt; y</code>라는 조건문을 수행하면 True를 리턴한다. <code>x &gt; y</code> 조건문이 참이기 때문이다.</p>
+<pre><code class="language-python">&gt;&gt;&gt; x &lt; y
+False
+</code></pre>
+<p>위 조건문은 거짓이기 때문에 False를 리턴한다.</p>
+<pre><code class="language-python">&gt;&gt;&gt; x == y
+False
+</code></pre>
+<p>x와 y는 같지 않다. 따라서 위 조건문은 거짓이므로 False를 리턴한다.</p>
+<pre><code class="language-python">&gt;&gt;&gt; x != y
+True
+</code></pre>
+<p>x와 y는 같지 않다. 따라서 위 조건문은 참이므로 True를 리턴한다.</p>
+<p>사용법을 알아봤으므로 이제 응용해 보자. 앞에서 살펴본 택시 예제를 다음처럼 바꾸려면 어떻게 해야 할까?</p>
+<pre><code class="language-no-highlight">만약 3000원 이상의 돈을 가지고 있으면 택시를 타고 가고, 그렇지 않으면 걸어가라.
+</code></pre>
+<p>이 상황은 다음처럼 프로그래밍할 수 있다.</p>
+<pre><code class="language-python">&gt;&gt;&gt; money = 2000
+&gt;&gt;&gt; if money &gt;= 3000:
+...     print(&quot;택시를 타고 가라&quot;)
+... else:
+...     print(&quot;걸어가라&quot;)
+...
+걸어가라
+&gt;&gt;&gt;
+</code></pre>
+<p><code>money &gt;= 3000</code> 조건문이 거짓이 되기 때문에 else 문 다음 문장을 수행하게 된다.</p>
+<h3 id="and-or-not">and, or, not</h3>
+<p>조건을 판단하기 위해 사용하는 다른 연산자로는 and, or, not이 있다. 각각의 연산자는 다음처럼 동작한다.</p>
+<table>
+<thead>
+<tr>
+<th>연산자</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>x or y</td>
+<td>x와 y 둘 중 하나만 참이어도 참이다.</td>
+</tr>
+<tr>
+<td>x and y</td>
+<td>x와 y 모두 참이어야 참이다.</td>
+</tr>
+<tr>
+<td>not x</td>
+<td>x가 거짓이면 참이다.</td>
+</tr>
+</tbody>
+</table>
+<p>다음 예를 통해 or 연산자의 사용법을 알아보자.</p>
+<pre><code class="language-no-highlight">돈이 3000원 이상 있거나 카드가 있다면 택시를 타고 가고, 그렇지 않으면 걸어가라.
+</code></pre>
+<pre><code class="language-python">&gt;&gt;&gt; money = 2000
+&gt;&gt;&gt; card = True
+&gt;&gt;&gt; if money &gt;= 3000 or card:
+...     print(&quot;택시를 타고 가라&quot;)
+... else:
+...     print(&quot;걸어가라&quot;)
+...
+택시를 타고 가라
+&gt;&gt;&gt;
+</code></pre>
+<p>money는 2000이지만, card가 True이기 때문에 <code>money &gt;= 3000 or card</code> 조건문이 참이 된다. 따라서 if 문에 속한 ‘택시를 타고 가라’ 문장이 출력된다.</p>
+<h3 id="in-not-in">in, not in</h3>
+<p>파이썬은 다른 프로그래밍 언어에서 쉽게 볼 수 없는 재미있는 조건문도 제공한다. 바로 다음과 같은 것들이다.</p>
+<table>
+<thead>
+<tr>
+<th>in</th>
+<th>not in</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>x in 리스트</td>
+<td>x not in 리스트</td>
+</tr>
+<tr>
+<td>x in 튜플</td>
+<td>x not in 튜플</td>
+</tr>
+<tr>
+<td>x in 문자열</td>
+<td>x not in 문자열</td>
+</tr>
+</tbody>
+</table>
+<p>영어 단어 in의 뜻이 ‘~안에’라는 것을 생각해 보면 다음 예가 쉽게 이해될 것이다.</p>
+<pre><code class="language-python">&gt;&gt;&gt; 1 in [1, 2, 3]
+True
+&gt;&gt;&gt; 1 not in [1, 2, 3]
+False
+</code></pre>
+<p>앞에서 첫 번째 예는 ‘[1, 2, 3]이라는 리스트 안에 1이 있는가?’라는 조건문이다. 1은 [1, 2, 3] 안에 있으므로 참이 되어 True를 리턴한다. 두 번째 예는 ‘[1, 2, 3] 리스트 안에 1이 없는가?’라는 조건문이다. 1은 [1, 2, 3] 안에 있으므로 거짓이 되어 False를 리턴한다.</p>
+<p>다음은 튜플과 문자열에 in과 not in을 적용한 예이다. 각각의 결과가 나온 이유는 쉽게 유추할 수 있다.</p>
+<pre><code class="language-python">&gt;&gt;&gt; 'a' in ('a', 'b', 'c')
+True
+&gt;&gt;&gt; 'j' not in 'python'
+True
+</code></pre>
+<p>이번에는 우리가 계속 사용해 온 택시 예제에 in을 적용해 보자.</p>
+<pre><code class="language-no-highlight">만약 주머니에 돈이 있으면 택시를 타고 가고, 없으면 걸어가라.
+</code></pre>
+<pre><code class="language-python">&gt;&gt;&gt; pocket = ['paper', 'cellphone', 'money']
+&gt;&gt;&gt; if 'money' in pocket:
+...     print(&quot;택시를 타고 가라&quot;)
+... else:
+...     print(&quot;걸어가라&quot;)
+...
+택시를 타고 가라
+&gt;&gt;&gt;
+</code></pre>
+<p><code>['paper', 'cellphone', 'money']</code> 리스트 안에 'money'가 있으므로 <code>'money' in pocket</code>은 참이 된다. 따라서 if 문에 속한 문장이 수행된다.</p>
+<p><fieldset><legend>점프 투 파이썬</legend>
+<strong>조건문에서 아무 일도 하지 않게 설정하고 싶다면?</strong></p>
+<p>가끔 조건문의 참, 거짓에 따라 실행할 행동을 정의할 때나 아무런 일도 하지 않도록 설정하고 싶을 때가 있다. 다음 예를 살펴 보자.</p>
+<pre><code class="language-no-highlight">주머니에 돈이 있으면 가만히 있고, 주머니에 돈이 없으면 카드를 꺼내라.
+</code></pre>
+<p>이럴 때 사용하는 것이 바로 pass이다. 위 예를 pass를 적용해서 구현해 보자.</p>
+<pre><code class="language-python">&gt;&gt;&gt; pocket = ['paper', 'money', 'cellphone']
+&gt;&gt;&gt; if 'money' in pocket:
+...     pass 
+... else:
+...     print(&quot;카드를 꺼내라&quot;)
+...
+</code></pre>
+<p>pocket 리스트 안에 money 문자열이 있기 때문에 if 문 다음 문장인 pass가 수행되고 아무런 결괏값도 보여 주지 않는다.
+</fieldset></p>
+<p></p>
+<h2 id="elif">다양한 조건을 판단하는 elif</h2>
+<p>if와 else만으로는 다양한 조건을 판단하기 어렵다. 다음 예를 보더라도 if와 else만으로는 조건을 판단하는 데 어려움을 겪게 된다는 것을 알 수 있다.</p>
+<pre><code class="language-no-highlight">주머니에 돈이 있으면 택시를 타고 가고, 주머니에 돈은 없지만 카드가 있으면 택시를 타고 가고, 돈도 없고 카드도 없으면 걸어가라.
+</code></pre>
+<p>위 문장을 보면 조건을 판단하는 부분이 두 군데 있다. 먼저 주머니에 돈이 있는지를 판단해야 하고 주머니에 돈이 없으면 다시 카드가 있는지 판단해야 한다.</p>
+<p>if와 else만으로 위 문장을 표현하려면 다음과 같이 할 수 있다.</p>
+<pre><code class="language-python">&gt;&gt;&gt; pocket = ['paper', 'cellphone']
+&gt;&gt;&gt; card = True
+&gt;&gt;&gt; if 'money' in pocket:
+...     print(&quot;택시를 타고가라&quot;)
+... else:
+...     if card:
+...         print(&quot;택시를 타고가라&quot;)
+...     else:
+...         print(&quot;걸어가라&quot;)
+...
+택시를 타고가라
+&gt;&gt;&gt;
+</code></pre>
+<p>언뜻 보기에도 이해하기 어렵고 산만한 느낌이 든다. 이런 복잡함을 해결하기 위해 파이썬에서는 다중 조건 판단을 가능하게 하는 elif를 사용한다.</p>
+<p>위 예에 elif를 사용하면 다음과 같이 바꿀 수 있다.</p>
+<pre><code class="language-python">&gt;&gt;&gt; pocket = ['paper', 'cellphone']
+&gt;&gt;&gt; card = True
+&gt;&gt;&gt; if 'money' in pocket:
+...      print(&quot;택시를 타고가라&quot;)
+... elif card: 
+...      print(&quot;택시를 타고가라&quot;)
+... else:
+...      print(&quot;걸어가라&quot;)
+...
+택시를 타고가라
+</code></pre>
+<p>즉, elif는 이전 조건문이 거짓일 때 수행된다. if, elif, else를 모두 사용할 때 기본 구조는 다음과 같다.</p>
+<pre><code class="language-python">if 조건문:
+    수행할_문장1 
+    수행할_문장2
+    ...
+elif 조건문:
+    수행할_문장1
+    수행할_문장2
+    ...
+elif 조건문:
+    수행할_문장1
+    수행할_문장2
+    ...
+...
+else:
+   수행할_문장1
+   수행할_문장2
+   ... 
+</code></pre>
+<p>위에서 볼 수 있듯이 elif는 개수에 제한 없이 사용할 수 있다.</p>
+<p><img alt="" src="https://wikidocs.net/images/page/20/03_1_if3.png" /></p>
+<p><fieldset><legend>점프 투 파이썬</legend>
+<strong>if 문을 한 줄로 작성하기</strong></p>
+<p>앞의 pass를 사용한 예를 보면 if 문 다음에 수행할 문장이 한 줄이고 else 문 다음에 수행할 문장도 한 줄밖에 되지 않는다.</p>
+<pre><code class="language-python">&gt;&gt;&gt; if 'money' in pocket:
+...     pass 
+... else:
+...     print(&quot;카드를 꺼내라&quot;)
+...
+</code></pre>
+<p>이렇게 수행할 문장이 한 줄일 때 좀 더 간략하게 코드를 작성하는 방법이 있다.</p>
+<pre><code class="language-python">&gt;&gt;&gt; pocket = ['paper', 'money', 'cellphone']
+&gt;&gt;&gt; if 'money' in pocket: pass
+... else: print(&quot;카드를 꺼내라&quot;)
+...
+</code></pre>
+<p>if 문 다음에 수행할 문장을 콜론(:) 뒤에 바로 적었다. else 문 역시 마찬가지이다.
+</fieldset></p>
+<h2 id="_4">조건부 표현식</h2>
+<p>다음 코드를 살펴보자. score가 60 이상일 경우 message에 문자열 "success", 아닐 경우에는 문자열 "failure"를 대입하는 코드이다.</p>
+<pre><code class="language-python">if score &gt;= 60:
+    message = &quot;success&quot;
+else:
+    message = &quot;failure&quot;
+</code></pre>
+<p>파이썬의 조건부 표현식(conditional expression)을 사용하면 위 코드를 다음과 같이 간단히 표현할 수 있다.</p>
+<pre><code class="language-python">message = &quot;success&quot; if score &gt;= 60 else &quot;failure&quot;
+</code></pre>
+<p>조건부 표현식은 다음과 같이 정의한다.</p>
+<pre><code class="language-no-highlight">변수 = 조건문이_참인_경우의_값 if 조건문 else 조건문이_거짓인_경우의_값
+</code></pre>
+<p>조건부 표현식은 가독성에 유리하고 한 줄로 작성할 수 있어 활용성이 좋다.</p>
+</div>
+<div class="muted text-right" style="font-size: 0.9em;margin:10px 0;">
+    
+    마지막 편집일시 : 2024년 8월 31일 11:52 오전
+    
+</div>
+<!-- google adsense -->
+<!-- PC -->
+
+<!-- Mobile -->
+
+    
+        <div style="margin:20px 0;">
+            <!-- 위키독스 포인트 광고 -->
+            <!-- 위키독스모바일2020 -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9470517771012578" crossorigin="anonymous"></script>
+<ins class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-9470517771012578"
+        data-ad-slot="4465552259"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+<script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+        </div>
+    
+
+
+<!-- google adsense -->
+<div class="clearfix">
+    <a href="javascript:show_comments();" class="label label-info">댓글 50</a>
+    <a href="#myModal" data-toggle="modal" title="피드백을 남겨주세요" class="label label-info">피드백</a>
+</div>
+<div class="user_comments" style="display:none">
+    <div class="comments" id="page_all_comments">
+        
+
+
+
+
+<div style="margin:15px 0 10px 0; font-size:0.75em;">
+    <a href="javascript:get_all_page_comments(20)">댓글 40개 더 보기...</a>
+</div>
+
+
+
+
+    <div class="comment comment_border_top">
+        <a name="comment_7204"></a>
+        <span style="white-space:pre-wrap;">and, or, not 연산자설명에서
+or 연산자 설명부분이
+&quot;x or y	x와 y 둘 중에 하나만 참이면 참이다&quot;
+이렇게 써있는데 해석이 모호하게 됩니다.
+x와 y 둘 중에 하나만 참이고 나머지는 거짓이어야 참인 것으로 해석될 수 있습니다.
+&#x27;x or y	x와 y 둘 중에 하나만 참이어도 참이다&#x27;
+이렇게 수정하면 명확하게 표현됩니다.</span>
+        <span style="font-size:12px;color:#888;">
+            -
+            
+                <a class="menu_link" href="/profile/info/book/9471">주환</a>,
+            
+            2020년 2월 6일 2:14 오후
+            
+            
+            
+        </span>
+    </div>
+
+    <div class="comment comment_border_top">
+        <a name="comment_7205"></a>
+        <span style="white-space:pre-wrap;">@주환님, 명확한 표현 알려주셔서 감사합니다. 본문에 반영하였습니다.</span>
+        <span style="font-size:12px;color:#888;">
+            -
+            
+                <a class="menu_link" href="/profile/info/book/3">박응용</a>,
+            
+            2020년 2월 7일 12:05 오전
+            
+            
+            
+        </span>
+    </div>
+
+    <div class="comment comment_border_top">
+        <a name="comment_7572"></a>
+        <span style="white-space:pre-wrap;">질문 있습니다.
+s = &#x27;abc&#x27;
+if s:
+    print(s)
+라는 코드에서 s라는 변수에 True가 아닌 문자열이 대입되어 있는데 왜 조건문이 실행되는건가요?</span>
+        <span style="font-size:12px;color:#888;">
+            -
+            
+                <a class="menu_link" href="/profile/info/book/10281">rukun</a>,
+            
+            2020년 6월 22일 2:22 오전
+            
+            
+            
+        </span>
+    </div>
+
+    <div class="comment comment_border_top">
+        <a name="comment_10673"></a>
+        <span style="white-space:pre-wrap;">&quot;위에서 볼 수 있듯이 elif는 개수에 제한 없이 사용할 수 있다.&quot; 에서
+&quot;개수에&quot;가 아닌 &quot;개수의&quot;가 맞습니다.</span>
+        <span style="font-size:12px;color:#888;">
+            -
+            
+                <a class="menu_link" href="/profile/info/book/12847">늅</a>,
+            
+            2021년 5월 2일 3:56 오후
+            
+            
+            
+        </span>
+    </div>
+
+    <div class="comment comment_border_top">
+        <a name="comment_10682"></a>
+        <span style="white-space:pre-wrap;">@늅님 피드백 감사합니다. 다만 출판사에 문의해 보니 &quot;개수의&quot; 보다는 &quot;개수에&quot;가 맞는 표현이라고 하네요. </span>
+        <span style="font-size:12px;color:#888;">
+            -
+            
+                <a class="menu_link" href="/profile/info/book/3">박응용</a>,
+            
+            2021년 5월 3일 8:54 오후
+            
+            
+            
+        </span>
+    </div>
+
+    <div class="comment comment_border_top">
+        <a name="comment_12238"></a>
+        <span style="white-space:pre-wrap;">안녕하세요 조건부 표현식에서 궁금증이 생겨서 질문 드립니다.
+
+st = 33
+s = [9,8,0,7,9]
+
+에서 만약 st가 45점 이상이고 s에 0이 없다면 G = &quot;A&quot;이다. 만약 아니라면 G = &quot;B&quot;이다. 를 조건부 표현식으로 적고싶어서
+
+G = &quot;A&quot; if (st &gt;= 45 and 0 not in s) else G = &quot;B&quot;
+
+라고 적었는데 SyntaxError : invaild syntax. Maybe you meant &#x27;==&#x27; or &#x27;:=&#x27; instead of &#x27;=&#x27;?
+라는 오류가 뜨더군요
+
+대충 보면 =말고 ==를 사용해라 하는 것 같은데, 책에서 배운 바로는 ==는 비교문에서 사용하는것으로 알고있는데
+저는 G라는 변수에 &quot;A&quot; or &quot;B&quot;를 대입하고 싶은 것이므로 = 를 쓰는게 맞다고 알고 있습니다.
+
+제가 어떤 부분에서 잘못한걸까요?
+알려주시면 감사하겠습니다 !!
+
+
+
+예제를 다시 한번 읽어보니 마지막에 else 변수 = value
+
+가 아니라 else 변수   로 해야 맞네요 ㅋㅋㅋㅋ... 제가 잘못 봤었군요ㅜㅜ</span>
+        <span style="font-size:12px;color:#888;">
+            -
+            
+                <a class="menu_link" href="/profile/info/book/14359">김동환</a>,
+            
+            2021년 10월 26일 12:12 오후
+            
+            
+            
+        </span>
+    </div>
+
+    <div class="comment comment_border_top">
+        <a name="comment_12239"></a>
+        <span style="white-space:pre-wrap;">혹시 조건부 표현식에 break if 조건 else pass 가 사용 가능한가요? 해보니까 잘 안되네요.. 도와주세요!</span>
+        <span style="font-size:12px;color:#888;">
+            -
+            
+                <a class="menu_link" href="/profile/info/book/14359">김동환</a>,
+            
+            2021년 10월 26일 4:15 오후
+            
+            
+            
+        </span>
+    </div>
+
+    <div class="comment comment_border_top">
+        <a name="comment_12241"></a>
+        <span style="white-space:pre-wrap;">@김동환님 break는 값을 리턴하지 않기 때문에 조건부 표현식에 사용할 수 없습니다. </span>
+        <span style="font-size:12px;color:#888;">
+            -
+            
+                <a class="menu_link" href="/profile/info/book/3">박응용</a>,
+            
+            2021년 10월 26일 5:08 오후
+            
+            
+            
+        </span>
+    </div>
+
+    <div class="comment comment_border_top">
+        <a name="comment_12242"></a>
+        <span style="white-space:pre-wrap;">@박응용님 감사합니다 !</span>
+        <span style="font-size:12px;color:#888;">
+            -
+            
+                <a class="menu_link" href="/profile/info/book/14359">김동환</a>,
+            
+            2021년 10월 26일 5:08 오후
+            
+            
+            
+        </span>
+    </div>
+
+    <div class="comment comment_border_top">
+        <a name="comment_13040"></a>
+        <span style="white-space:pre-wrap;">조건부 표현식이 구현된 코드에 대해 질문드립니다!
+message = &quot;success&quot; if score &gt;= 60 else &quot;failure&quot; 이렇게 구현되어 있고, 제 생각에는
+message = &quot;success&quot; if score &gt;= 60 else message = &quot;failure&quot; 분기가 된 else 구문에도 message에 할당해야하지 않나 싶은데 아닌가요..?</span>
+        <span style="font-size:12px;color:#888;">
+            -
+            
+                <a class="menu_link" href="/profile/info/book/15287">책바라기</a>,
+            
+            2022년 2월 21일 5:06 오후
+            
+            
+            
+        </span>
+    </div>
+
+
+
+
+
+
+    </div>
+    
+    <a href="/loginForm" class="text-info" style="font-size:12px">※ 댓글 작성은 로그인이 필요합니다.</a>
+    <a href="#myModal" data-toggle="modal" style="font-size:12px">(또는 피드백을 이용해 주세요.)</a>
+    
+</div>
+<div class="page-prev-next">
+    
+<div class="clearfix">
+    <div class="pull-left">
+        <ul>
+            
+                <li><strong>이전글</strong> : <a href="javascript:page(19)">03장 프로그램의 구조를 쌓는다! 제어문</a></li>
+            
+            
+                <li><strong>다음글</strong> : <a href="javascript:page(21)">03-2 while문</a></li>
+            
+        </ul>
+    </div>
+</div>
+
+
+</div>
+
+
+
+<a href="#" class="btn btn-primary toc-to mobile-toc">
+    <span class="glyphicon glyphicon-list"></span>
+    목차보기
+</a>
+
+
+<!-- 책갈피 모달 -->
+<div class="modal fade" id="bookmarkModal" tabindex="-1" role="dialog" aria-labelledby="bookmarkModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="bookmarkModalLabel">책갈피</h4>
+            </div>
+            <div class="modal-body bookmark-body">
+                <!-- 여기에 동적 데이터가 로드됩니다 -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary">추가</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+var is_mobile = "True";
+$(document).ready(function () {
+    if (is_mobile == "True") {
+        if($(window).width() >= 768) {
+            // show toc
+            localStorage.toc = "show";
+            $('#toc_on').prop('checked', true);
+            $(".toc-checker").removeClass("hide");
+            $(".toc-checker").show();
+
+        }else {
+            // hide toc
+            localStorage.toc = "hide";
+            $('#toc_off').prop('checked', true);
+            $(".toc-checker").hide();
+        }
+        $(".mobile-toc").click(function() {
+            $('#toc_on').prop('checked', true);
+            $(".toc-checker").removeClass("hide");
+            $(".toc-checker").show();
+        });
+    }
+
+    $('.bookmark_btn').click(function(){
+        var pathname = window.location.pathname;
+        $.ajax({
+            url: "/bookmark/",
+            method: "post",
+            data: {pathname: pathname},
+            success: function(data){
+                $('#bookmarkModal .modal-body').html(data);
+                $('#bookmarkModal').modal("show");
+            }
+        });
+    });
+
+    $('#bookmarkModal .btn-primary').click(function(){
+        var pathname = window.location.pathname;
+        // console.log(pathname);
+        $.ajax({
+            url: "/bookmark/add/",
+            method: "post",
+            data: {pathname: pathname},
+            success: function(data){
+                // console.log(data);
+                $('#bookmarkModal .modal-body').html(data);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log("Request failed: " + textStatus + ", " + errorThrown);
+                // $('#bookmarkModal .modal-body').html("An error occurred: " + textStatus);
+            },
+        });
+    });
+
+    $('#bookmarkModal .item-delete').click(function(){
+        
+        $.ajax({
+            url: "/bookmark/delete/",
+            method: "post",
+            data: {pathname: pathname},
+            success: function(data){
+                $('#bookmarkModal .modal-body').html(data);
+            }
+        });
+    });
+
+    // 다크모드 토글 버튼 클릭 이벤트 처리
+    /*
+    $('#toggle-theme').click(function(e) {
+        const urlParams = new URLSearchParams(window.location.search);
+        
+            urlParams.set('dark', "on");
+        
+        window.location.search = urlParams.toString();
+    });
+    */
+
+    $('[data-toggle="popover"]').popover({
+        trigger: 'hover', // 마우스를 올렸을 때 popover 표시
+        container: 'body' // popover가 body 요소에 추가되도록 설정
+    });
+
+});
+function deleteBookmark(bookmarkId) {
+    if (confirm('정말 삭제하시겠습니까?')) {
+        $.ajax({
+            url: '/bookmark/delete/' + bookmarkId + '/',
+            type: 'POST',
+            data: {
+                'csrfmiddlewaretoken': 'HKqaKdzRJZAPBiiy8jzBDzGpdlV72wj5SQeMHcyhUks9nZsO69KrqeFGLDYge4lI'
+            },
+            success: function(response) {
+                $('#bookmarkModal .modal-body').html(response);
+            },
+            error: function(xhr, status, error) {
+                // 오류 처리
+                alert('삭제 실패: ' + error);
+            }
+        });
+    }
+}
+
+$(document).ready(function() {
+    // 현재 다크모드 상태 확인
+    let isDarkMode = false;
+
+    // 다크모드 토글 함수
+    function toggleDarkMode() {
+        isDarkMode = !isDarkMode;
+        updateTheme();
+        saveDarkModePreference();
+    }
+
+    // 테마 업데이트 함수
+    function updateTheme() {
+        const mainStylesheet = $('#main-stylesheet');
+        const markdownStylesheet = $('#markdown-stylesheet');
+        const highlightStylesheet = $('#highlight-stylesheet');
+
+        if (isDarkMode) {
+            mainStylesheet.attr('href', "/static/book/css/style_stack_dark.css?v=13");
+            markdownStylesheet.attr('href', "/static/book/css/markdown_stack_dark.css?v=13");
+            highlightStylesheet.attr('href', "//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/atom-one-dark.min.css");
+        } else {
+            mainStylesheet.attr('href', "/static/book/css/style_stack.css?v=13");
+            markdownStylesheet.attr('href', "/static/book/css/markdown_stack.css?v=13");
+            highlightStylesheet.attr('href', "//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/default.min.css");
+        }
+    }
+
+    // Ajax를 사용하여 다크모드 설정 저장
+    function saveDarkModePreference() {
+        $.ajax({
+            url: '/set_darkmode/',  // Django URL을 여기에 지정
+            method: 'POST',
+            data: {
+                'darkmode': isDarkMode ? 'on' : 'off'
+            },
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken')  // CSRF 토큰
+            }
+        });
+    }
+
+    // CSRF 토큰을 쿠키에서 가져오는 함수
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    // 토글 버튼 클릭 이벤트
+    $('#toggle-theme').click(toggleDarkMode);
+
+    // 초기 테마 설정
+    // updateTheme();
+});
+
+</script>
+    
+
+    </div>
+</div>
+<div style="display:none" class="prev_next_indicator">
+    
+    <a class="prev_icon" href="javascript:page(19)" role="button">
+        <span class="glyphicon glyphicon-chevron-left" style="font-size:2em;"></span>
+    </a>
+
+
+    <a class="next_icon" href="javascript:page(21)" role="button">
+        <span class="glyphicon glyphicon-chevron-right" style="font-size:2em;"></span>
+    </a>
+
+
+</div>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 id="myModalLabel" class="modal-title">이 페이지에 대한 피드백을 남겨주세요</h3>
+            </div>
+            <div class="modal-body">
+                <form class="form" role="form">
+                    <input type="hidden" name="page_id" id="page_id" value="20" />
+                    <div class="form-group">
+                        <label class="control-label" for="email">답장받을 이메일 주소</label>
+                        <div class="">
+                            <input class="form-control" type="text" id="email" placeholder="Email" >
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label" for="feedback">하고 싶은 말</label>
+                        <div class="controls">
+                            <textarea class="form-control" id="feedback" rows="5"></textarea>
+                        </div>
+                    </div>
+                    <p style="font-size:12px;">※ 피드백은 저자에게 e-메일로 전달됩니다.</p>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default" data-dismiss="modal">Close</button>
+                <button class="btn btn-primary" id="feedback_btn">전송하기</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="reportModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="reportModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 id="reportModalLabel" class="modal-title">댓글을 신고합니다.</h3>
+            </div>
+            <div class="modal-body">
+                <form class="form" role="form">
+                    <input type="hidden" name="comment_id" id="comment_id" />
+                    해당 댓글을 신고하시겠습니까? 댓글 신고는 다음과 같은 경우에 사용해주세요:
+                    <ol>
+                        <li>스팸 또는 광고성 내용이 포함된 경우</li>
+                        <li>욕설, 비방, 개인정보 유출 등 부적절한 내용이 포함된 경우</li>
+                        <li>저작권을 침해하는 내용이 포함된 경우</li>
+                    </ol>
+                    <div class="form-group">
+                        <label class="control-label" for="report">신고 사유를 입력해 주세요.</label>
+                        <div class="controls">
+                            <textarea class="form-control" id="report" rows="5"></textarea>
+                        </div>
+                    </div>
+                    <p style="font-size:12px;">※ 신고하신 내용은 관리자에게 전달되며, 확인 후 적절한 조치가 이루어집니다. 신고는 익명으로 처리되며, 신고자의 정보는 공개되지 않습니다.</p>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default" data-dismiss="modal">Close</button>
+                <button class="btn btn-primary" id="report_btn">전송하기</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+
+
+<script>
+$(document).ready(function () {
+    $('pre code').each(function(i, e) {
+        hljs.highlightElement(e);
+        $(e).html($(e).html()
+            .replace(/\[\[MARK\]\]/g,'<mark class="add">')
+            .replace(/\[\[\/MARK\]\]/g, '</mark>')
+            .replace(/\[\[SMARK\]\]/g,'<mark class="del"><strike>')
+            .replace(/\[\[\/SMARK\]\]/g, '</strike></mark>')
+            .replace(/\[\[\/.*SMARK.*\]\]/g, '</strike></mark>')
+            .replace(/\[\[.*SMARK.*\]\]/g,'<mark class="del"><strike>')
+            .replace(/\[\[\/.*MARK.*\]\]/g, '</mark>')
+            .replace(/\[\[.*MARK.*\]\]/g,'<mark class="add">')
+        );
+    });
+    $("pre code").addClass("md-csc-wrap");
+    $(".hljs").prepend("<button class='md-csc-button btn btn-xs btn-default'><span class='copymsg'>Copy</span></button>");
+    $(".md-csc-button").click(function(){
+        let text = $(this).parent().text();
+        text = text.substring(4); // "Copy 문자열 이후부터.."
+        const textArea = document.createElement('textarea');
+        textArea.textContent = text;
+        document.body.append(textArea);
+        textArea.select();
+        document.execCommand("copy");
+        textArea.remove();
+        $(this).find(".copymsg").html("Copied!");
+        setTimeout(() => {
+            $(this).find(".copymsg").html("Copy");
+        }, 2000);
+    });
+});
+</script>
+
+</body>
+</html>
