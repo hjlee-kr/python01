@@ -1,7 +1,7 @@
 # os 모듈
 # os 자원 사용 할 수 있도록 하는 모듈
 import os
-result = os.environ
+result = os.environ # 환경변수
 print(result)
 
 # 디렉토리 위치변경

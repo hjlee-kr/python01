@@ -155,5 +155,7 @@ print(type(open("test","w")))
 # zip() - 동일한 갯수로 이루어진 데이터를 묶어서 리턴
 result = list(zip([1,2,3], [4,5,6]))
 print(result)
+# [1,2,3,4,5,6]
 result = list(zip("abc", "def"))
 print(result)
+# abcdef
