@@ -57,7 +57,7 @@ if "new" in collist:
   mycol = mydb["new"]
 
 ## 100: 정치, 101: 경제, 102: 사회, 103: 생활/문화, 104: 세계, 105: IT/과학
-resultList = ex_news(103)
+resultList = ex_news(101)
 
 x = mycol.insert_many(resultList)
 
